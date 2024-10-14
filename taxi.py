@@ -132,7 +132,7 @@ def evaluate_hyperparameter(
         best_value = param_values[best_idx]
         best_params[param_name] = best_value
         other_params = {p: v for p, v in best_params.items() if p != param_name}
-        plt.figure()
+        plt.figure(figsize=(10, 6))
         for idx, (result, value) in enumerate(zip(results, values)):
             plot_hline = idx == best_idx
             plot_vline = idx == best_idx
@@ -144,14 +144,15 @@ def evaluate_hyperparameter(
                 plot_hline=plot_hline,
                 plot_vline=plot_vline,
             )
-        plt.title(
-            f"Effect of {param_name} on {agent_class.__name__}\nParams: {other_params}, Best {param_name}: {best_value}"
-        )
+        title= f"Effect of {param_name} on {agent_class.__name__}, Params: {other_params}, Best {param_name}: {best_value}"
+        # plt.title(
+        #     f"Effect of {param_name} on {agent_class.__name__}\nParams: {other_params}, Best {param_name}: {best_value}"
+        # )
         plt.legend()
         directory = f"artefacts/{agent_class.__name__}/{param_name}"
         os.makedirs(directory, exist_ok=True)
         file_path = os.path.join(
-            directory, f"{str(best_params)}, R={best_reward}, T={best_time}.jpeg"
+            directory, f"{title}, BR={best_reward}, BT={best_time}.jpeg" 
         )
         plt.savefig(file_path, format="jpeg")
         plt.show()
