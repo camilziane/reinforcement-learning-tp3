@@ -8,7 +8,7 @@ class QLearningAgentEpsScheduling(QLearningAgent):
         self,
         *args,
         epsilon_start: float = 1.0,
-        epsilon_end: float = 0.05,
+        epsilon_end: float = 0.25,
         epsilon_decay_steps: int = 10000,
         **kwargs,
     ):
@@ -17,7 +17,7 @@ class QLearningAgentEpsScheduling(QLearningAgent):
 
         You shoud not use directly self._qvalues, but instead of its getter/setter.
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs | {"epsilon": epsilon_start})
         self.epsilon_start = epsilon_start
         self.epsilon_end = epsilon_end
         self.epsilon_decay_steps = epsilon_decay_steps
@@ -43,6 +43,15 @@ class QLearningAgentEpsScheduling(QLearningAgent):
         action = self.legal_actions[0]
 
         # BEGIN SOLUTION
+        if random.uniform(0, 1) < self.epsilon:
+            action = random.choice(self.legal_actions)
+        else:
+            return self.get_best_action(state)
+
+        self.epsilon = self.epsilon_end ** min(
+            (self.timestep / self.epsilon_decay_steps), 1
+        )
+        self.timestep += 1
         # END SOLUTION
 
         return action

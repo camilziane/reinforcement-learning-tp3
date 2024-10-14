@@ -12,6 +12,8 @@ jupyterlab = {version = "^4.1.0a2", allow-prereleases = true}
 numpy = {version = "^1.26.1", allow-prereleases = true}
 matplotlib = {version = "^3.8.0", allow-prereleases = true}
 gymnasium = {extras = ["classic-control", "toy-text"], version = "^0.29.1", allow-prereleases = true}
+gym-record = "^0.0.3"
+moviepy = "^1.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
